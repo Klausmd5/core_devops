@@ -10,7 +10,6 @@ fi
 echo "Running first time setup..."
 
 echo "Recreating ssh host key"
-sudo /bin/rm -v /etc/ssh/ssh_host_*
 sudo dpkg-reconfigure openssh-server
 sudo systemctl restart ssh
 
@@ -20,3 +19,5 @@ docker compose pull
 echo "First time setup complete!"
 
 touch "$CHECK_FILE"
+
+sudo reboot
