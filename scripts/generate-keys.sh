@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
-openssl genrsa -out ~/private-keys/private.pem 4096
-openssl rsa -in ~/private-keys/private.pem -pubout -out ~/public-keys/public.pem
-cp ~/public-keys/public.pem ~/private-keys/
+openssl genrsa -out ~/private-keys/private-key.pem 4096
+openssl rsa -in ~/private-keys/private-key.pem -pubout -out ~/public-keys/public-key.pem
+cp ~/public-keys/public-key.pem ~/private-keys/
