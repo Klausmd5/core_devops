@@ -19,16 +19,17 @@ echo \
 echo "Composing compose..."
 # Clone Compose
 curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/docker-compose.yml
-curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/caddy/mainframe-config.json
+curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/mainframe-config.json
 
 mkdir public-keys
 mkdir private-keys
 mkdir plugin-backends
 
-openssl genrsa -out ./private-keys/private.pem 4096
-openssl rsa -in ./private-keys/private.pem -pubout -out ./public-keys/public.crt
+openssl genrsa -out ./private-keys/private-key.pem 4096
+openssl rsa -in ./private-keys/private-key.pem -pubout -out ./public-keys/public-key.pem
 
-docker-compose up -d
+docker compose pull
+docker compose up -d
 
 echo "Check Conf..."
 
