@@ -1,0 +1,35 @@
+name: Plugin Updater
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'plugin-updater/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set Release Version
+        run: echo "TAG=$(git show -s --format=%cd --date=format:%Y-%m-%d_%H-%M-%S ${{ github.sha }})" >> ${GITHUB_ENV}
+      - name: Login with Github Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: |
+          docker build \
+            -t ghcr.io/htl-grieskirchen-core/core/plugin-updater:${{ env.TAG }} \
+            -t ghcr.io/htl-grieskirchen-core/core/plugin-updater:latest \
+            plugin-updater
+      - name: Push
+        run: |
+          docker push ghcr.io/htl-grieskirchen-core/core/plugin-updater:${{ env.TAG }}
+          docker push ghcr.io/htl-grieskirchen-core/core/plugin-updater:latest

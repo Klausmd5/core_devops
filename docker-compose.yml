@@ -5,9 +5,6 @@ services:
         container_name: core-caddy
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/core/caddy:${TAG:-latest}
-        build:
-            context: ..
-            dockerfile: deployment/caddy/caddy.Dockerfile
         environment:
             DOMAIN_NAME: "${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
             TLS_EMAIL: "${TLS_EMAIL}"
@@ -16,7 +13,7 @@ services:
             - secure
         volumes:
             - plugin-frontends:/srv/plugins
-            - ./caddy/mainframe-config.json:/srv/mainframe-config.input.json
+            - ./mainframe-config.json:/srv/mainframe-config.input.json
             - caddy-data:/data
         ports:
             - '80:80'
@@ -29,9 +26,6 @@ services:
         container_name: core-backend
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/core/backend:${TAG:-latest}
-        build:
-            context: ..
-            dockerfile: deployment/backend.Dockerfile
         environment:
             RSA__public-key: "${RSA_PUBLIC_KEY_FILE}"
             JWT__Issuer: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
@@ -61,9 +55,6 @@ services:
         container_name: core-secure
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/core/secure:${TAG:-latest}
-        build:
-            context: ..
-            dockerfile: deployment/backend.secure.Dockerfile
         environment:
             ConnectionStrings__Production: "server=secure-database;database=core;user=root;password=network-security"
             MainframeOrigin: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
@@ -95,10 +86,8 @@ services:
         container_name: core-plugin-updater
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/core/plugin-updater:${TAG:-latest}
-        build:
-            context: plugin-updater
         volumes:
-            - ./caddy/mainframe-config.json:/data/mainframe-config.json
+            - ./mainframe-config.json:/data/mainframe-config.json
             - plugin-frontends:/data/plugins/frontend
             - plugin-backends:/data/plugins/backend
             - /var/run/docker.sock:/var/run/docker.sock
