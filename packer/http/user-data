@@ -1,0 +1,31 @@
+#cloud-config
+autoinstall:
+    version: 1
+
+    locale: de_AT
+    timezone: Europe/Vienna
+    keyboard:
+        layout: de
+
+    ssh:
+        install-server: true
+        allow-pw: true
+
+    user-data:
+        preserve_hostname: false
+        hostname: synopsis
+        users:
+          - name: synopsis
+            # pw = "initial-setup"
+            # it will be deleted as part of the provisioning pipeline
+            passwd: $6$upFrSqSMuULtGsSc$lhTQCzc3YkdQDsDl8pmDFN1IFU52/YW47FvfW81QzoYAFU2tZOGZ4iS041WuHRcKTtDDIE/MFt3PK0cgQ/aNU0
+            lock_passwd: false
+            sudo: ALL=(ALL) NOPASSWD:ALL
+            shell: /bin/bash
+        write_files:
+          - path: /etc/systemd/system/getty@tty1.service.d/override.conf
+            content: |
+              [Service]
+              ExecStart=
+              ExecStart=-/sbin/agetty --autologin synopsis %I $TERM
+              Type=idle
