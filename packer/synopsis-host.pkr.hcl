@@ -83,6 +83,7 @@ build {
   provisioner "shell" {
     inline = [
       "echo '~/first-time-setup.sh' >> .profile",
+      "sudo touch /etc/cloud/cloud-init.disabled",
       "sudo rm -v /etc/ssh/ssh_host_*", # remove ssh keys, will be regenerated on first boot by line above
       "sudo passwd --delete synopsis" # remove "initial-setup" password
     ]
