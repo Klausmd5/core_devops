@@ -16,15 +16,27 @@ echo \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
     sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
+echo "Composing compose..."
 # Clone Compose
-curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/core/develop/deployment/docker-compose.yml
+curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/docker-compose.yml
+curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/caddy/mainframe-config.json
+
+mkdir caddy
+mkdir public-keys
+mkdir private-keys
+mkdir plugin-backends
+
+openssl genrsa -out ./private-keys/private.pem 4096
+openssl rsa -in ./private-keys/private.pem -pubout -out ./public-keys/public.crt
+
+mv mainframe-config.json ./caddy/mainframe-config.json
+
 docker-compose up -d
 
 echo "Check Conf..."
 
 sudo apt-get install jq -y
-curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/core/master/deployment/caddy/mainframe-config.json
-conf=$(cat './mainframe-config.json')
+conf=$(cat './caddy/mainframe-config.json')
 search='https'
 RED="\e[31m"
 GREEN="\e[32m"
@@ -43,7 +55,7 @@ for id in $(echo "$conf" | jq -r '.plugins | keys[]'); do
         if [[ "$status_code" == 302 ]]; then
             echo -e "${GREEN}OK... $status_code ${ENDCOLOR}"
         else
-            echo -e "${RED}ERROR... $status_code ${ENDCOLOR}"
+            echo -e "${RED}ERROR invalid URL... $status_code ${ENDCOLOR}"
             exit 0
         fi
 

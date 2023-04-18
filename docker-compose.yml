@@ -34,9 +34,9 @@ services:
             dockerfile: deployment/backend.Dockerfile
         environment:
             RSA__public-key: "${RSA_PUBLIC_KEY_FILE}"
-            JWT__Issuer: "https://mainframe.${DOMAIN_NAME}"
-            JWT__Audience: "https://mainframe.${DOMAIN_NAME}"
-            MainframeOrigin: "https://mainframe.${DOMAIN_NAME}"
+            JWT__Issuer: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
+            JWT__Audience: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
+            MainframeOrigin: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
         depends_on:
             - backend-database
         volumes:
@@ -66,10 +66,10 @@ services:
             dockerfile: deployment/backend.secure.Dockerfile
         environment:
             ConnectionStrings__Production: "server=secure-database;database=core;user=root;password=network-security"
-            MainframeOrigin: "https://mainframe.${DOMAIN_NAME}"
+            MainframeOrigin: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
             LDAPConfiguration__ServerIp: "${LDAP_SERVER_IP:-10.10.0.11}"
-            JWT__Issuer: "https://mainframe.${DOMAIN_NAME}"
-            JWT__Audience: "https://mainframe.${DOMAIN_NAME}"
+            JWT__Issuer: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
+            JWT__Audience: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
             RSA__private-key: "${RSA_PRIVATE_KEY_FILE}"
             RSA__public-key: "${RSA_PUBLIC_KEY_FILE}"
         depends_on:
