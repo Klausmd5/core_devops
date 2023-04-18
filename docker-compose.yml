@@ -6,7 +6,7 @@ services:
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/caddy-proxy:${TAG:-latest}
         environment:
-            DOMAIN_NAME: "${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
+            DOMAIN_NAME: "${DOMAIN_NAME}"
             TLS_EMAIL: "${TLS_EMAIL}"
         depends_on:
             - backend
@@ -27,10 +27,10 @@ services:
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/core/plugin-backend:${TAG:-latest}
         environment:
-            RSA__public-key: "${RSA_PUBLIC_KEY_FILE}"
-            JWT__Issuer: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
-            JWT__Audience: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
-            MainframeOrigin: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
+            RSA__public-key: "public-key.pem"
+            JWT__Issuer: "https://mainframe.${DOMAIN_NAME}"
+            JWT__Audience: "https://mainframe.${DOMAIN_NAME}"
+            MainframeOrigin: "https://mainframe.${DOMAIN_NAME}"
         depends_on:
             - backend-database
         volumes:
@@ -57,12 +57,12 @@ services:
         image: ghcr.io/htl-grieskirchen-core/secure-backend:${TAG:-latest}
         environment:
             ConnectionStrings__Production: "server=secure-database;database=core;user=root;password=network-security"
-            MainframeOrigin: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
-            LDAPConfiguration__ServerIp: "${LDAP_SERVER_IP:-10.10.0.11}"
-            JWT__Issuer: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
-            JWT__Audience: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
-            RSA__private-key: "${RSA_PRIVATE_KEY_FILE}"
-            RSA__public-key: "${RSA_PUBLIC_KEY_FILE}"
+            MainframeOrigin: "https://mainframe.${DOMAIN_NAME}"
+            LDAPConfiguration__ServerIp: "${LDAP_SERVER_IP}"
+            JWT__Issuer: "https://mainframe.${DOMAIN_NAME}"
+            JWT__Audience: "https://mainframe.${DOMAIN_NAME}"
+            RSA__private-key: "private-key.pem"
+            RSA__public-key: "public-key.pem"
         depends_on:
             - secure-database
         volumes:
