@@ -26,10 +26,10 @@ jobs:
       - name: Build
         run: |
           docker build \
-            -t ghcr.io/htl-grieskirchen-core/core/plugin-updater:${{ env.TAG }} \
-            -t ghcr.io/htl-grieskirchen-core/core/plugin-updater:latest \
+            -t ghcr.io/htl-grieskirchen-core/plugin-updater:${{ env.TAG }} \
+            -t ghcr.io/htl-grieskirchen-core/plugin-updater:latest \
             plugin-updater
       - name: Push
         run: |
-          docker push ghcr.io/htl-grieskirchen-core/core/plugin-updater:${{ env.TAG }}
-          docker push ghcr.io/htl-grieskirchen-core/core/plugin-updater:latest
+          docker push ghcr.io/htl-grieskirchen-core/plugin-updater:${{ env.TAG }}
+          docker push ghcr.io/htl-grieskirchen-core/plugin-updater:latest

@@ -4,7 +4,7 @@ services:
     caddy:
         container_name: core-caddy
         restart: unless-stopped
-        image: ghcr.io/htl-grieskirchen-core/core/caddy:${TAG:-latest}
+        image: ghcr.io/htl-grieskirchen-core/caddy-proxy:${TAG:-latest}
         environment:
             DOMAIN_NAME: "${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
             TLS_EMAIL: "${TLS_EMAIL}"
@@ -25,7 +25,7 @@ services:
     backend:
         container_name: core-backend
         restart: unless-stopped
-        image: ghcr.io/htl-grieskirchen-core/core/backend:${TAG:-latest}
+        image: ghcr.io/htl-grieskirchen-core/core/plugin-backend:${TAG:-latest}
         environment:
             RSA__public-key: "${RSA_PUBLIC_KEY_FILE}"
             JWT__Issuer: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
@@ -54,7 +54,7 @@ services:
     secure:
         container_name: core-secure
         restart: unless-stopped
-        image: ghcr.io/htl-grieskirchen-core/core/secure:${TAG:-latest}
+        image: ghcr.io/htl-grieskirchen-core/secure-backend:${TAG:-latest}
         environment:
             ConnectionStrings__Production: "server=secure-database;database=core;user=root;password=network-security"
             MainframeOrigin: "https://mainframe.${DOMAIN_NAME:-synopsis.htl-grieskirchen.at}"
@@ -85,7 +85,7 @@ services:
     plugin-updater:
         container_name: core-plugin-updater
         restart: unless-stopped
-        image: ghcr.io/htl-grieskirchen-core/core/plugin-updater:${TAG:-latest}
+        image: ghcr.io/htl-grieskirchen-core/plugin-updater:${TAG:-latest}
         volumes:
             - ./mainframe-config.json:/data/mainframe-config.json
             - plugin-frontends:/data/plugins/frontend
