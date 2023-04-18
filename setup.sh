@@ -21,7 +21,6 @@ echo "Composing compose..."
 curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/docker-compose.yml
 curl -O https://raw.githubusercontent.com/htl-grieskirchen-core/devops/develop/caddy/mainframe-config.json
 
-mkdir caddy
 mkdir public-keys
 mkdir private-keys
 mkdir plugin-backends
@@ -29,14 +28,12 @@ mkdir plugin-backends
 openssl genrsa -out ./private-keys/private.pem 4096
 openssl rsa -in ./private-keys/private.pem -pubout -out ./public-keys/public.crt
 
-mv mainframe-config.json ./caddy/mainframe-config.json
-
 docker-compose up -d
 
 echo "Check Conf..."
 
 sudo apt-get install jq -y
-conf=$(cat './caddy/mainframe-config.json')
+conf=$(cat './mainframe-config.json')
 search='https'
 RED="\e[31m"
 GREEN="\e[32m"
