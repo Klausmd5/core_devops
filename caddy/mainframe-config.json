@@ -1,0 +1,57 @@
+﻿{
+    "plugins": {
+        "polls": {
+            "repoUrl": "https://github.com/htl-grieskirchen-core/plugin-polls",
+            "info": {
+                "name": "Polls",
+                "description": "Plugin Polls",
+                "teachers": [
+                    "Teacher1",
+                    "Teacher2"
+                ],
+                "tags": [
+                    "dua moi wos"
+                ],
+                "startDate": "1662789600",
+                "endDate": "1663221600",
+                "image": "example.com/image.png"
+            }
+        },
+        "quote-of-today": {
+            "repoUrl": "https://github.com/htl-grieskirchen-core/plugin-quote-of-today",
+            "info": {
+                "name": "Quote of Today",
+                "description": "Quote of Today on Login Screen",
+                "teachers": [
+                    "Teacher1",
+                    "Teacher2"
+                ],
+                "tags": [
+                    "quotes"
+                ],
+                "startDate": "1662789600",
+                "endDate": "1663221600",
+                "image": "example.com/image.png"
+            }
+        },
+		"seatmap-generator":{
+			"repoUrl": "https://github.com/rgrueneisHtlgkr/plugin-seatmap",
+			"info": {
+			   "name": "SeatMap",
+			   "description": "App zum Erstellen eines zufülligen Sitzplans in verschiedenen EDV-Räumen",
+			   "teachers": ["alle Lehrer"],
+			   "tags": ["Schularbeit", "PLF", "Test", "Sitzplan"],
+			   "startDate": 1693519200,
+			   "endDate": 1720994400,
+			   "image": "example.com/image.png"
+			}
+		}
+    },
+    "login": {
+        "url": "https://auth.plugin.@@DOMAIN_NAME@@"
+    },
+    "navigation": {
+        "url": "https://frontend.plugin.@@DOMAIN_NAME@@"
+    },
+    "secureBackendUrl": "https://secure.backend.@@DOMAIN_NAME@@"
+}

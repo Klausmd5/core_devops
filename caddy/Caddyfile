@@ -1,0 +1,35 @@
+{
+    email {$TLS_EMAIL:""}
+}
+
+(spa-host) {
+    root * {args.0}
+    encode gzip zstd
+    try_files {path} /index.html
+    file_server
+}
+
+mainframe.{$DOMAIN_NAME} {
+    import spa-host /srv/mainframe
+}
+
+frontend.plugin.{$DOMAIN_NAME} {
+    import spa-host /srv/frontend
+}
+
+auth.plugin.{$DOMAIN_NAME} {
+    import spa-host /srv/auth
+}
+
+plugin.backend.{$DOMAIN_NAME} {
+    reverse_proxy http://backend
+}
+
+secure.backend.{$DOMAIN_NAME} {
+    reverse_proxy http://secure
+}
+
+# fallback redirect
+:80, :443 {
+    redir https://mainframe.{$DOMAIN_NAME}
+}
