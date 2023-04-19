@@ -1,0 +1,22 @@
+name: Build OVA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  vagrant-up:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Install Packer
+        run: brew install packer
+
+      - name: Init Packer
+        run: packer init synopsis-host.pkr.hcl
+        working-directory: ./packer
+
+      - name: Build Packer
+        run: packer build synopsis-host.pkr.hcl
+        working-directory: ./packer
