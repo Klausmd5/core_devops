@@ -1,0 +1,38 @@
+name: Packer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-ova:
+    name: Build OVA
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Packer
+        run: brew install packer
+
+      - name: Cache Packer cache
+        uses: actions/cache@v3
+        with:
+          path: ./packer/cache
+          key: ${{ runner.os }}-packer-cache
+
+      - name: Download ISO
+        run: |
+          mkdir -p ./packer/cache
+          curl -L -o ./packer/cache/d6c27ed78f385b7455c218ba93bf575d7bb4c89e.iso https://releases.ubuntu.com/22.04.2/ubuntu-22.04.2-live-server-amd64.iso
+
+      - name: Init Packer
+        run: packer init synopsis-host.pkr.hcl
+        working-directory: ./packer
+        env:
+          PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Packer
+        run: packer build synopsis-host.pkr.hcl
+        working-directory: ./packer
+        env:
+          PACKER_CACHE_DIR: ./cache
