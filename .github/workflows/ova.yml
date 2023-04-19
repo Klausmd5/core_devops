@@ -16,6 +16,8 @@ jobs:
       - name: Init Packer
         run: packer init synopsis-host.pkr.hcl
         working-directory: ./packer
+        env:
+          PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Packer
         run: packer build synopsis-host.pkr.hcl
