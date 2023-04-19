@@ -20,9 +20,14 @@ source "virtualbox-iso" "synopsis-host" {
 
   headless = var.headless
 
-  vm_name = "Synopsis"
+  vm_name              = "Synopsis"
   guest_os_type        = "Ubuntu_64"
   guest_additions_mode = "disable"
+
+  # fix network issue
+  vboxmanage = [
+    ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+  ]
 
   boot_wait    = "5s"
   boot_command = [
@@ -42,7 +47,7 @@ source "virtualbox-iso" "synopsis-host" {
 
   shutdown_command = "sudo shutdown -P now"
 
-  format = "ova"
+  format          = "ova"
   output_filename = "synopsis"
 }
 
