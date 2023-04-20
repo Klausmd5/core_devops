@@ -27,6 +27,7 @@ services:
         restart: unless-stopped
         image: ghcr.io/htl-grieskirchen-core/plugin-backend:${TAG:-latest}
         environment:
+            ConnectionStrings__Production: "server=secure-database;database=core;user=root;password=network-security"
             RSA__public-key: "public-key.pem"
             JWT__Issuer: "https://mainframe.${DOMAIN_NAME}"
             JWT__Audience: "https://mainframe.${DOMAIN_NAME}"
