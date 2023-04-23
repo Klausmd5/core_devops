@@ -59,7 +59,25 @@ build {
   }
 
   provisioner "shell" {
-    script = "../scripts/setup-synopsis.sh"
+    inline = [
+      "mkdir public-keys"
+      "mkdir private-keys"
+    ]
+  }
+
+  provisioner "file" {
+    source = "../docker-compose.yml"
+    destination = "~/docker-compose.yml"
+  }
+
+  provisioner "file" {
+    source = "../mainframe-config.json"
+    destination = "~/mainframe-config.json"
+  }
+
+  provisioner "file" {
+    source = "../.env"
+    destination = "~/.env"
   }
 
   provisioner "file" {
