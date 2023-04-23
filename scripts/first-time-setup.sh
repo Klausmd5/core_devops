@@ -3,7 +3,24 @@
 CHECK_FILE=~/.initial_setup_complete
 
 if [[ -f "$CHECK_FILE" ]]; then
-  echo "Skipping first time setup."
+  cat <<'EOF'
+ __                             _
+/ _\_   _ _ __   ___  _ __  ___(_)___
+\ \| | | | '_ \ / _ \| '_ \/ __| / __|
+_\ \ |_| | | | | (_) | |_) \__ \ \__ \
+\__/\__, |_| |_|\___/| .__/|___/_|___/
+    |___/            |_|
+
+Setup Instructions:
+
+    1. Generate the private keys using the script
+       `./generate-keys.sh` or copy them from an
+       existing backup.
+    2. Configure the variables in the `.env` file.
+    3. Run `docker compose up -d` to start the system.
+       The services will then automatically restart
+       after a system restart.
+EOF
   exit 0
 fi
 
