@@ -60,7 +60,7 @@ build {
 
   provisioner "shell" {
     inline = [
-      "mkdir public-keys"
+      "mkdir public-keys",
       "mkdir private-keys"
     ]
   }
