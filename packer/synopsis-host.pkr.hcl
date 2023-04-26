@@ -41,7 +41,7 @@ source "virtualbox-iso" "synopsis-host" {
   http_directory = "http"
 
   ssh_handshake_attempts = "10000"
-  ssh_timeout            = "30m"
+  ssh_timeout            = "2h"
   ssh_username           = "synopsis"
   ssh_password           = "initial-setup"
 
