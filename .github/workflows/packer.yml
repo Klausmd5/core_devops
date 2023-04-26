@@ -39,3 +39,9 @@ jobs:
         working-directory: ./packer
         env:
           PACKER_CACHE_DIR: ./cache
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: synopsis.ova
+          path: packer/output-synopsis-host/synopsis.ova
